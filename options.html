@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>网申助手 · 设置</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: "Microsoft YaHei", sans-serif; background: #f7f8fa; color: #2d3748; }
+  .container { max-width: 860px; margin: 0 auto; padding: 24px 20px 60px; }
+  h1 { font-size: 20px; margin-bottom: 4px; }
+  .sub { font-size: 13px; color: #718096; margin-bottom: 20px; }
+  .card { background: #fff; border: 1px solid #e2e8f0; border-radius: 10px; padding: 18px 20px; margin-bottom: 18px; }
+  .card h2 { font-size: 15px; margin-bottom: 12px; color: #2b6cb0; }
+  label { display: block; font-size: 13px; margin: 10px 0 4px; color: #4a5568; }
+  input[type=text], input[type=password] { width: 100%; padding: 8px 10px; border: 1px solid #cbd5e0; border-radius: 6px; font-size: 13px; }
+  textarea { width: 100%; min-height: 260px; padding: 10px; border: 1px solid #cbd5e0; border-radius: 6px; font-size: 12.5px; font-family: Consolas, monospace; line-height: 1.5; resize: vertical; }
+  .row { display: flex; gap: 12px; }
+  .row > div { flex: 1; }
+  .hint { font-size: 12px; color: #a0aec0; margin-top: 6px; line-height: 1.6; }
+  button { background: #3182ce; color: #fff; border: none; border-radius: 6px; padding: 9px 22px; font-size: 13.5px; cursor: pointer; margin-top: 12px; }
+  button:hover { opacity: .88; }
+  .btn-ghost { background: #fff; color: #2b6cb0; border: 1px solid #3182ce; margin-left: 8px; }
+  .checkline { display: flex; align-items: center; gap: 8px; margin-top: 12px; font-size: 13px; }
+  #toast { position: fixed; top: 16px; right: 16px; background: #2f855a; color: #fff; padding: 10px 18px; border-radius: 8px; font-size: 13px; display: none; }
+  details { margin-top: 10px; font-size: 12.5px; color: #4a5568; }
+  summary { cursor: pointer; color: #2b6cb0; }
+  pre { background: #edf2f7; border-radius: 6px; padding: 10px; margin-top: 8px; font-size: 12px; overflow-x: auto; }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>网申助手 · 设置</h1>
+  <div class="sub">所有数据仅保存在本机浏览器（chrome.storage.local），不会上传到任何服务器。</div>
+
+  <div class="card">
+    <h2>① 个人资料（Markdown）</h2>
+    <textarea id="mdInput" placeholder="粘贴你的个人资料 MD 文档…"></textarea>
+    <div class="hint">格式要求：用 <b>## 二级标题</b> 分组（如「基本信息」「教育经历」「实习经历」「开放性问答」），组内用 <b>- 字段: 值</b> 逐条填写。长文本（自我评价等）直接写在标题下方即可。</div>
+    <button id="saveProfile">保存资料</button>
+    <button class="btn-ghost" id="loadTemplate">填入模板示例</button>
+    <button class="btn-ghost" id="downloadTemplate">下载模板文件</button>
+    <details>
+      <summary>查看解析结果（保存后可检查是否识别正确）</summary>
+      <pre id="parsedPreview">（尚未解析）</pre>
+    </details>
+  </div>
+
+  <div class="card">
+    <h2>② LLM 配置（OpenAI 兼容接口）</h2>
+    <div class="checkline">
+      <input type="checkbox" id="llmEnabled">
+      <label for="llmEnabled" style="margin:0">启用 LLM 语义匹配与开放题生成</label>
+    </div>
+    <label>API Base URL</label>
+    <input type="text" id="llmBase" placeholder="例如 https://api.openai.com/v1 或你的中转地址">
+    <div class="row">
+      <div>
+        <label>API Key</label>
+        <input type="password" id="llmKey" placeholder="sk-...">
+      </div>
+      <div>
+        <label>模型</label>
+        <input type="text" id="llmModel" placeholder="例如 gpt-4o-mini / deepseek-chat">
+      </div>
+    </div>
+    <div class="hint">支持任何 OpenAI Chat Completions 兼容接口（OpenAI、DeepSeek、通义、Kimi、各类中转站均可）。Key 仅存本机。</div>
+    <button id="saveLLM">保存 LLM 配置</button>
+    <button class="btn-ghost" id="testLLM">测试连接</button>
+    <div class="hint" id="testResult"></div>
+  </div>
+
+  <div class="card">
+    <h2>③ 目标岗位 JD（可选）</h2>
+    <textarea id="jdInput" style="min-height:120px" placeholder="粘贴目标岗位的 JD。启用后，LLM 在生成自我评价等开放题答案时会向 JD 要求靠拢。"></textarea>
+    <button id="saveJD">保存 JD</button>
+  </div>
+</div>
+<div id="toast">已保存</div>
+<script src="profile-parser.js"></script>
+<script src="options.js"></script>
+</body>
+</html>

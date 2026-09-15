@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { width: 320px; font-family: "Microsoft YaHei", sans-serif; background: #f7f8fa; }
+  .header { background: linear-gradient(135deg, #2b6cb0, #3182ce); color: #fff; padding: 14px 16px; }
+  .header h1 { font-size: 16px; font-weight: 600; }
+  .header p { font-size: 12px; opacity: .85; margin-top: 2px; }
+  .body { padding: 14px 16px; }
+  .status { font-size: 13px; color: #4a5568; background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px 12px; margin-bottom: 12px; }
+  .status b { color: #2b6cb0; }
+  .status .warn { color: #c53030; }
+  button { width: 100%; border: none; border-radius: 8px; padding: 10px 0; font-size: 14px; cursor: pointer; margin-bottom: 8px; transition: opacity .15s; }
+  button:hover { opacity: .88; }
+  .btn-primary { background: #3182ce; color: #fff; }
+  .btn-llm { background: #6b46c1; color: #fff; }
+  .btn-secondary { background: #fff; color: #2b6cb0; border: 1px solid #3182ce; }
+  .footer { text-align: center; font-size: 11px; color: #a0aec0; padding-bottom: 10px; }
+</style>
+</head>
+<body>
+  <div class="header">
+    <h1>网申助手 · 智能填充</h1>
+    <p>本地匹配优先，LLM 语义兜底</p>
+  </div>
+  <div class="body">
+    <div class="status" id="status">正在读取配置…</div>
+    <button class="btn-primary" id="fillLocal">⚡ 快速填充（本地匹配）</button>
+    <button class="btn-llm" id="fillLLM">🤖 智能填充（本地 + LLM）</button>
+    <button class="btn-secondary" id="openOptions">⚙️ 资料与 API 设置</button>
+  </div>
+  <div class="footer">资料仅存于本机浏览器，不会上传</div>
+  <script src="popup.js"></script>
+</body>
+</html>

@@ -1,0 +1,28 @@
+{
+  "manifest_version": 3,
+  "name": "网申助手 · 智能填充",
+  "version": "1.0.0",
+  "description": "基于个人资料 MD 文档自动填充网申表单，支持 LLM 语义匹配与开放题生成",
+  "permissions": ["storage", "activeTab", "scripting"],
+  "host_permissions": ["<all_urls>"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "网申助手"
+  },
+  "options_page": "options.html",
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["profile-parser.js", "content.js"],
+      "run_at": "document_idle",
+      "all_frames": true
+    }
+  ],
+  "icons": {
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}
